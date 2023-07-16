@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Task</title>
+</head>
+<body>
+<form th:method="patch" th:action="@{/tasks/{id}(id=${task.getId()})}" th:object="${task}">
+    <div>
+        <label for="name">Topic</label>
+        <input id="name" placeholder="Enter task's topic" required th:field="*{topic}" type="text"/>
+    </div>
+
+    <div>
+        <label for="info">Text</label>
+        <textarea id="info" placeholder="Enter task's text" th:field="*{text}"></textarea>
+    </div>
+
+    <div>
+        <label for="notification">Notification Time</label>
+        <input id="notification" th:field="*{notificationTime}" type="datetime-local"
+               th:disabled="${user.get().getTelegramUserId()==null}"/>
+    </div>
+
+    <input type="submit" value="Save Task">
+    <input type="reset" value="Reset">
+</form>
+</body>
+</html>

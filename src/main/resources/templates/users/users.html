@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Users</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>#</th>
+        <th>Telegram User ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>User Role</th>
+    </tr>
+    <tr th:if="${#lists.isEmpty(users)}">
+        <td colspan="7">No Users found. Add some...!</td>
+    </tr>
+    <tr th:each="user, iter : ${users}">
+        <td th:text="${iter.index}+1"></td>
+        <td th:text="${user.getTelegramUserId()}"></td>
+        <td th:text="${user.getName()}"></td>
+        <td th:text="${user.getEmail()}"></td>
+        <td th:text="${user.getUserRole()}"></td>
+        <td>
+            <form th:action="@{/users/{id}/edit(id=${user.getId()})}">
+                <input type="submit" value="Edit"/>
+            </form>
+        </td>
+        <td>
+            <form th:method="delete" th:action="@{/users/{id}(id=${user.getId()})}">
+                <div>
+                    <input type="submit" value="Delete"/>
+                </div>
+            </form>
+        </td>
+    </tr>
+</table>
+<div>
+    <a th:href="@{users/new}">Add new User</a>
+</div>
+</body>
+</html>

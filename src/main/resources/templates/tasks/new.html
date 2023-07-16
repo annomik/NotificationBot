@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new Task</title>
+</head>
+<body>
+<form th:method="post" th:action="@{/tasks}" th:object="${task}">
+    <div>
+        <label for="name">Topic</label>
+        <input id="name" placeholder="Enter task's topic" required th:field="*{topic}" type="text"/>
+    </div>
+
+    <div>
+        <label for="info">Text</label>
+        <textarea id="info" placeholder="Enter task's text" th:field="*{text}"></textarea>
+    </div>
+
+    <div>
+        <label for="notification">Notification Time</label>
+        <input id="notification" placeholder="Enter notification time" th:field="*{notificationTime}" type="datetime-local"
+               th:disabled="${user.get().getTelegramUserId()==null}"/>
+    </div>
+
+    <input type="submit" value="Create Task">
+    <input type="reset" value="Reset">
+</form>
+</body>
+</html>

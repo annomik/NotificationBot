@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User Data</title>
+</head>
+<body>
+<form th:method="patch" th:action="@{/users/{id}(id=${user.getId()})}" th:object="${user}">
+    <div>
+        <label for="tg-id">Telegram User ID</label>
+        <input id="tg-id" placeholder="Enter Telegram User ID" th:field="*{telegramUserId}" type="text"/>
+    </div>
+
+    <div>
+        <label for="tg-name">Name</label>
+        <input id="tg-name" placeholder="Enter User Name" required th:field="*{name}" type="text"/>
+    </div>
+
+    <div>
+        <label for="email">Email</label>
+        <input id="email" placeholder="Enter User Email address" required th:field="*{email}" type="email"/>
+    </div>
+
+    <div>
+        <div>User role:</div>
+        <th:block th:each="role : ${roles}">
+            <div>
+                <input id="role" type="radio" th:id="${role.name()}" th:field="*{userRole}"
+                       th:value="${role.name()}"/>
+                <label for="role" th:for="${role.name()}" th:text="${role.name()}">user_role</label>
+            </div>
+        </th:block>
+    </div>
+
+    <div>
+        <label for="password">Password</label>
+        <input id="password" placeholder="Enter Password" required th:field="*{password}" type="password"/>
+    </div>
+    <!--    toDo: add repeat password -->
+
+    <input type="submit" value="Update User">
+    <input type="reset" value="Reset">
+</form>
+</body>
+</html>

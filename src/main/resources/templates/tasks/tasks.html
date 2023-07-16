@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tasks</title>
+    <script type="text/javascript">
+        function clearSearch() {
+            window.location = "[[@{/tasks}]]";
+        }
+    </script>
+</head>
+<body>
+<form th:method="get" th:action="@{/tasks}">
+    <label for="keyword">Search</label>
+    <input type="text" name="keyword" id="keyword" th:value="${keyword}" required/>
+    &nbsp;
+    <input type="submit" value="Search"/>
+    &nbsp;
+    <input type="button" value="Clear" id="btnClear" onclick="clearSearch()"/>
+</form>
+<table>
+    <tr>
+        <th>#</th>
+        <th>Topic</th>
+        <th>Text</th>
+        <th>Notification Time</th>
+    </tr>
+    <tr th:if="${#lists.isEmpty(tasks)}">
+        <td colspan="7">No Tasks found. Add some...!</td>
+    </tr>
+    <tr th:each="task, iter : ${tasks}">
+        <td th:text="${iter.index}+1"></td>
+        <td th:text="${task.getTopic()}"></td>
+        <td th:text="${task.getText()}" style="white-space: pre-wrap"></td>
+        <td th:text="${#temporals.format(task.getNotificationTime(), 'dd.MM.yyyy HH:mm')}"></td>
+        <td>
+            <form th:action="@{/tasks/{id}/edit(id=${task.getId()})}">
+                <input type="submit" value="Edit"/>
+            </form>
+        </td>
+        <td>
+            <form th:method="delete" th:action="@{/tasks/{id}(id=${task.getId()})}">
+                <div>
+                    <input type="submit" value="Delete"/>
+                </div>
+            </form>
+        </td>
+    </tr>
+</table>
+<div>
+    <a th:href="@{tasks/new}">Add new Task</a>
+</div>
+<div>
+    <form th:action="@{/logout}" th:method="POST">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+</body>
+</html>
